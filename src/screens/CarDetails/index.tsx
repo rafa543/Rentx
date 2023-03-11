@@ -2,7 +2,7 @@ import React from 'react'
 import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
-import { Container, Header, CarImages, Content, Details, Description, Brand, Name, Rent, Period, Price, About, Accessorys } from "./styles";
+import { Container, Header, CarImages, Content, Details, Description, Brand, Name, Rent, Period, Price, About, Accessorys, Footer } from "./styles";
 
 import speedSvg from '../../assets/speed.svg'
 import accelerationSvg from '../../assets/acceleration.svg'
@@ -10,6 +10,7 @@ import forceSvg from '../../assets/force.svg'
 import gasolineSvg from '../../assets/gasoline.svg'
 import exchangeSvg from '../../assets/exchange.svg'
 import peopleSvg from '../../assets/people.svg'
+import { Button } from '../../components/Button';
 
 export function CarDetails() {
 
@@ -52,6 +53,10 @@ export function CarDetails() {
                     na praça Real Maestranza de Sevilla. É um belissimo carro para quem gosta de acelerar.
                 </About>
             </Content>
+
+            <Footer>
+                <Button title="Confirmar"/>
+            </Footer>
         </Container>
     )
 }
