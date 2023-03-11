@@ -11,7 +11,7 @@ interface Props extends TouchableOpacityProps {
 export function ConfirmButton({title, ...rest} : Props) {
 
     return (
-        <Container>
+        <Container {...rest}>
             <Title>{title}</Title>
         </Container>
     )

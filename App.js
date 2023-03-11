@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler'
 import React, { useCallback, useEffect, useState } from 'react';
 import { Home } from './src/screens/Home';
 import * as Font from 'expo-font';
@@ -19,6 +20,7 @@ import { CarDetails } from './src/screens/CarDetails';
 import { Scheduling } from './src/screens/Scheduling';
 import { SchedulingDetails } from './src/screens/SchedulingDetails';
 import { SchedulingComplete } from './src/screens/SchedulingComplete';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -52,7 +54,7 @@ export default function App() {
   return (
     <View onLayout={onLayoutRootView} style={{ width: '100%', height: '100%' }}>
       <ThemeProvider theme={theme}>
-        <SchedulingComplete />
+        <Routes/>
       </ThemeProvider>
     </View>
   )
