@@ -5,14 +5,10 @@ import { ImageSlider } from '../../components/ImageSlider';
 import { Container, Header, CarImages, Content, Details, Description, Brand, Name, Rent, Period, Price, About, Accessories, Footer } from "./styles";
 
 import speedSvg from '../../assets/speed.svg'
-import accelerationSvg from '../../assets/acceleration.svg'
-import forceSvg from '../../assets/force.svg'
-import gasolineSvg from '../../assets/gasoline.svg'
-import exchangeSvg from '../../assets/exchange.svg'
-import peopleSvg from '../../assets/people.svg'
 import { Button } from '../../components/Button';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import CarDto from '../../dtos/CarDto';
+import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 
 interface Params {
     car: CarDto
@@ -62,7 +58,7 @@ export function CarDetails() {
                             <Accessory 
                                 key={accesory.type}
                                 name={accesory.name}
-                                icon={speedSvg} 
+                                icon={getAccessoryIcon(accesory.type)} 
                             />
                         ))
                     }
