@@ -1,8 +1,15 @@
 import React from 'react'
+import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
-import { Container, Header, CarImages, Content, Details, Description, Brand, Name, Rent, Period, Price, About } from "./styles";
+import { Container, Header, CarImages, Content, Details, Description, Brand, Name, Rent, Period, Price, About, Accessorys } from "./styles";
 
+import speedSvg from '../../assets/speed.svg'
+import accelerationSvg from '../../assets/acceleration.svg'
+import forceSvg from '../../assets/force.svg'
+import gasolineSvg from '../../assets/gasoline.svg'
+import exchangeSvg from '../../assets/exchange.svg'
+import peopleSvg from '../../assets/people.svg'
 
 export function CarDetails() {
 
@@ -30,6 +37,15 @@ export function CarDetails() {
                         <Price>R$ 500</Price>
                     </Rent>
                 </Details>
+
+                <Accessorys>
+                    <Accessory name="380kM/H" icon={speedSvg} />
+                    <Accessory name="3.2S" icon={accelerationSvg} />
+                    <Accessory name="800 HP" icon={forceSvg} />
+                    <Accessory name="Gasolina" icon={gasolineSvg} />
+                    <Accessory name="Auto" icon={exchangeSvg} />
+                    <Accessory name="2 pessoas" icon={peopleSvg} />
+                </Accessorys>
 
                 <About>
                     ESte é automovel desportivo. Surgiu do lendario touro de lide indultado

@@ -76,4 +76,15 @@ export const About = styled.Text`
     text-align: justify;
 
     margin-top: 23px;
+    line-height: ${RFValue(25)}px;
 ` 
+
+export const Accessorys = styled.View`
+    width: 100%;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+`
