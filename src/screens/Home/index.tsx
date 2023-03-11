@@ -16,18 +16,9 @@ export function Home() {
     const [loading, setIsLoading] = useState(true)
 
     const navigation = useNavigation<any>()
-    const carData = {
-        brand: "Audi",
-        name: "RS 5 Coupe",
-        rent: {
-            period: "AO DIA",
-            price: 120
-        },
-        thumbnail: 'https://i.pinimg.com/originals/f6/71/7b/f6717b67f9b1a4c3c03527ed21837766.png'
-    }
 
-    function handleCarDetails() {
-        navigation.navigate("CarDetails")
+    function handleCarDetails(car: CarDto) {
+        navigation.navigate("CarDetails", {car})
     }
 
     useEffect(() => {
@@ -71,7 +62,7 @@ export function Home() {
                     renderItem={({ item }) =>
                         <Car
                             data={item}
-                            onPress={handleCarDetails}
+                            onPress={() => handleCarDetails(item)}
                         />
                     }
                 />
