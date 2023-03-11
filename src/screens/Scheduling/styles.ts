@@ -8,7 +8,7 @@ interface DateValueProps {
 
 export const Container = styled.View`
     flex: 1;
-    background-color: ${({ theme }) => theme.colors.background_primary};
+    background-color: ${({ theme }) => theme.colors.background_secondary};
 `
 export const Header = styled.View`
     width: 100%;
@@ -61,7 +61,7 @@ export const DateValue = styled.Text<DateValueProps>`
 
 export const Content = styled.ScrollView.attrs({
     contentContainerStyle: {
-        padding: 24
+        paddingBottom: 24
     },
     showsVerticalScrollIndicator: false
 })`
