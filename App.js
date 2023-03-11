@@ -17,6 +17,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from './src/styles/theme';
 import { CarDetails } from './src/screens/CarDetails';
 import { Scheduling } from './src/screens/Scheduling';
+import { SchedulingDetails } from './src/screens/SchedulingDetails';
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -50,7 +51,7 @@ export default function App() {
   return (
     <View onLayout={onLayoutRootView} style={{ width: '100%', height: '100%' }}>
       <ThemeProvider theme={theme}>
-        <Scheduling />
+        <SchedulingDetails />
       </ThemeProvider>
     </View>
   )
