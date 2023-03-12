@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {Alert} from 'react-native'
+import { Alert } from 'react-native'
 import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
@@ -40,6 +40,7 @@ import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 import { format } from 'date-fns';
 import { getPlataformDate } from '../../utils/getPlataformDate';
 import api from '../../services/api';
+import { ActivityIndicator } from 'react-native'
 
 interface Params {
     car: CarDto;
@@ -53,7 +54,7 @@ interface RentalPeriod {
 
 export function SchedulingDetails() {
     const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod)
-
+    const [loading, setIsLoading] = useState(false)
     const route = useRoute()
     const { car, dates } = route.params as Params
     const theme = useTheme()
@@ -62,6 +63,7 @@ export function SchedulingDetails() {
     const rentTotal = Number(dates.length * car.rent.price)
 
     async function handleConfirmRental() {
+        setIsLoading(true)
         const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
 
         const unavailable_dates = [
@@ -80,7 +82,11 @@ export function SchedulingDetails() {
             id: car.id,
             unavailable_dates
         }).then(() => navigation.navigate("SchedulingComplete"))
-        .catch(() => Alert.alert("Não foi possivel confirmar o agendamento."))
+            .catch(() => {
+                setIsLoading(false)
+                Alert.alert("Não foi possivel confirmar o agendamento.")
+            })
+            
 
     }
 
@@ -169,8 +175,15 @@ export function SchedulingDetails() {
             </Content>
 
             <Footer>
-                <Button title="Alugar agora" color={theme.colors.success} onPress={handleConfirmRental} />
+                <Button
+                    title="Alugar agora"
+                    color={theme.colors.success}
+                    onPress={handleConfirmRental}
+                    disabled={loading}
+                    loading={loading}
+                />
             </Footer>
+
         </Container>
     )
 }
