@@ -1,17 +1,35 @@
-import { Container, Header, Title, SubTitle, Content, Appointments, AppointmentsTitle, AppointmentsQuantity } from "./styles";
+import {
+    Container,
+    Header,
+    Title,
+    SubTitle,
+    Content,
+    Appointments,
+    AppointmentsTitle,
+    AppointmentsQuantity,
+    CarWrapper,
+    CarFooter,
+    CarFooterTitle,
+    CaFooterPeriod,
+    CarFooterDate
+} from "./styles";
 import { StatusBar, FlatList } from "react-native";
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import CarDto from "../../dtos/CarDto";
 import api from "../../services/api";
 import { BackButton } from "../../components/BackButton";
 import theme from "../../styles/theme";
 import { useNavigation } from "@react-navigation/native";
 import { Car } from "../../components/Car";
+import { AntDesign } from '@expo/vector-icons'
+import { Load } from "../../components/Load";
 
 interface CarProps {
     id: string;
     user_id: string;
     car: CarDto;
+    start: string;
+    end: string;
 }
 
 export function MyCars() {
@@ -26,26 +44,26 @@ export function MyCars() {
 
     useEffect(() => {
         async function fetchCars() {
-            try { 
+            try {
                 const response = await api.get('/schedules_byuser?user_id=1')
                 setCars(response.data)
             } catch (error) {
                 console.log(error)
-            } finally{
+            } finally {
                 setIsLoading(false)
             }
         }
 
         fetchCars()
-    }, []) 
-    return(
+    }, [])
+    return (
         <Container>
-            <StatusBar 
-                barStyle="light-content" 
-                translucent 
+            <StatusBar
+                barStyle="light-content"
+                translucent
                 backgroundColor="transparent"
             />
-            <Header> 
+            <Header>
                 <BackButton onPress={handleBack} color={theme.colors.shape} />
 
                 <Title>
@@ -59,22 +77,40 @@ export function MyCars() {
                 </SubTitle>
 
             </Header>
-        
-            <Content>
-                <Appointments>
-                    <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
-                    <AppointmentsQuantity>10</AppointmentsQuantity>
-                </Appointments>
 
-                <FlatList
-                    data={cars}
-                    keyExtractor={item => item.id} 
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({item}) => <Car data={item.car}/>}
-                />
+            {loading ? <Load /> :
+                <Content>
+                    <Appointments>
+                        <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
+                        <AppointmentsQuantity>{cars.length}</AppointmentsQuantity>
+                    </Appointments>
 
-            </Content>
+                    <FlatList
+                        data={cars}
+                        keyExtractor={item => item.id}
+                        showsVerticalScrollIndicator={false}
+                        renderItem={({ item }) => (
+                            <CarWrapper>
+                                <Car data={item.car} />
+                                <CarFooter>
+                                    <CarFooterTitle>Período</CarFooterTitle>
+                                    <CaFooterPeriod>
+                                        <CarFooterDate>{item.start}</CarFooterDate>
+                                        <AntDesign
+                                            name="arrowright"
+                                            size={20}
+                                            color={theme.colors.title}
+                                            style={{ marginHorizontal: 10 }}
+                                        />
+                                        <CarFooterDate>{item.end}</CarFooterDate>
+                                    </CaFooterPeriod>
+                                </CarFooter>
+                            </CarWrapper>
+                        )}
+                    />
 
+                </Content>
+            }
         </Container>
     )
 }
