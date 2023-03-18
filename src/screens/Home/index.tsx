@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, BackHandler } from 'react-native';
 import { Container, Header, TotalCars, HeaderContent, CarList } from "./styles";
 import { Ionicons } from '@expo/vector-icons'
 
@@ -66,6 +66,13 @@ export function Home() {
     }
 
     useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', () => {
+            return true
+        })
+
+    }, [])
+
+    useEffect(() => {
         async function fetchCars() {
             try {
                 const response = await api.get('/cars')
@@ -93,9 +100,12 @@ export function Home() {
                         width={RFValue(108)}
                         height={RFValue(12)}
                     />
-                    <TotalCars>
-                        Total de {cars.length} carros
-                    </TotalCars>
+                    {
+                        !loading &&
+                        <TotalCars>
+                            Total de {cars.length} carros
+                        </TotalCars>
+                    }
                 </HeaderContent>
             </Header>
 
