@@ -21,7 +21,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import api from '../../services/api'
 import CarDto from '../../dtos/CarDto';
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 import theme from '../../styles/theme';
 
 export function Home() {
@@ -109,7 +109,7 @@ export function Home() {
                 </HeaderContent>
             </Header>
 
-            {loading ? <Load /> :
+            {loading ? <LoadAnimation /> :
                 <CarList
                     data={cars}
                     keyExtractor={item => item.id}
