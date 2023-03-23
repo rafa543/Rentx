@@ -34,8 +34,8 @@ export function PasswordInput({
         setIsFilled(!!value)
     }
     return (
-        <Container isFocused={isFocused}>
-            <IconContainer>
+        <Container>
+            <IconContainer isFocused={isFocused}>
 
                 <Feather
                     name={iconName}
@@ -44,18 +44,19 @@ export function PasswordInput({
                 />
             </IconContainer>
             <InputText
+                isFocused={isFocused}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
                 secureTextEntry={isPasswordVisible}
-                {...rest} 
+                {...rest}
             />
             <BorderlessButton onPress={handlePasswordVisibilityChange}>
-                <IconContainer>
-                <Feather
-                    name={isPasswordVisible ? 'eye' : 'eye-off'}
-                    size={24}
-                    color={theme.colors.text_detail}
-                />
+                <IconContainer isFocused={isFocused}>
+                    <Feather
+                        name={isPasswordVisible ? 'eye' : 'eye-off'}
+                        size={24}
+                        color={theme.colors.text_detail}
+                    />
                 </IconContainer>
             </BorderlessButton>
         </Container>
