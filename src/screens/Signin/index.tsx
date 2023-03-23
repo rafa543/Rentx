@@ -24,6 +24,10 @@ export function Signin() {
             <Form>
                 <Input 
                     iconName='mail'
+                    placeholder='E-mail'
+                    keyboardType='email-address'
+                    autoCorrect={false}
+                    autoCapitalize="none"
                 />
             </Form>
 
