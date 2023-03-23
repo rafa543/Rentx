@@ -7,6 +7,10 @@ interface ButtonProps extends TouchableOpacityProps {
     color: string
 }
 
+interface ButtonTextProps {
+    light: boolean;
+}
+
 export const Container = styled(TouchableOpacity)<ButtonProps>`
     width: 100%;
     padding: 19px;
@@ -16,8 +20,8 @@ export const Container = styled(TouchableOpacity)<ButtonProps>`
     background-color: ${({color}) => color };
 `
 
-export const Title = styled.Text`
+export const Title = styled.Text<ButtonTextProps>`
     font-family: ${({theme}) => theme.fonts.primary_500};
     font-size: ${RFValue(15)}px;
-    color: ${({theme}) => theme.colors.shape};
+    color: ${({theme, light}) => light ?  theme.colors.header : theme.colors.shape};
 `
