@@ -1,12 +1,13 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
-import { Container, Footer, Header, Subtitle, Title } from "./styles";
+import { Container, Footer, Form, Header, Subtitle, Title } from "./styles";
 
-import {Button} from '../../components/Button'
+import { Button } from '../../components/Button'
 import theme from '../../styles/theme';
+import { Input } from '../../components/Input';
 
 export function Signin() {
-    return(
+    return (
         <Container>
             <StatusBar
                 backgroundColor='transparent'
@@ -20,20 +21,25 @@ export function Signin() {
                 </Subtitle>
             </Header>
 
+            <Form>
+                <Input 
+                    iconName='mail'
+                />
+            </Form>
+
             <Footer>
                 <Button
                     title='Login'
-                    onPress={() => {}}
+                    onPress={() => { }}
                     disabled={true}
                     loading={false}
-                    
+
                 />
                 <Button
                     title='Criar conta gratuita'
                     color={theme.colors.background_secondary}
                     light
-                    onPress={() => {}}
-                    disabled={true}
+                    onPress={() => { }}
                     loading={false}
                 />
             </Footer>
