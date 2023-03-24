@@ -13,7 +13,7 @@ export function Signin() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const navigation = useNavigation()
+    const navigation = useNavigation<any>()
 
     async function handleSignIn() {
         try {
