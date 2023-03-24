@@ -1,15 +1,40 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { KeyboardAvoidingView, StatusBar, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { Container, Footer, Form, Header, Subtitle, Title } from "./styles";
 
 import { Button } from '../../components/Button'
 import theme from '../../styles/theme';
 import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
+import * as Yup from 'yup'
 
 export function Signin() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    async function handleSignIn() {
+        try {
+            const schema = Yup.object().shape({
+                email: Yup.string()
+                    .required("E-mail obrigatorio")
+                    .email('Digite um e-mail válido'),
+                password: Yup.string()
+                .required("A senha é obrigatoria")
+            })
+    
+            await schema.validate({email, password})
+        } catch (error) {
+            if(error) {
+                if(error instanceof Yup.ValidationError){
+                    return Alert.alert("Opa", error.message)
+                }else {
+                    return Alert.alert('Error na autenticação', 
+                    "Ocorreu um erro ao fazer login, verifique as credenciais")
+                }
+            }
+        }
+
+    }
 
     return (
         <KeyboardAvoidingView
@@ -52,7 +77,7 @@ export function Signin() {
                     <Footer>
                         <Button
                             title='Login'
-                            onPress={() => { }}
+                            onPress={handleSignIn}
                             enabled={false}
                             loading={false}
 
@@ -61,7 +86,7 @@ export function Signin() {
                             title='Criar conta gratuita'
                             color={theme.colors.background_secondary}
                             light
-                            onPress={() => { }}
+                            onPress={handleSignIn}
                             loading={false}
                         />
                     </Footer>
