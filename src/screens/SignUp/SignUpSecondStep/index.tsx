@@ -20,10 +20,10 @@ interface Params {
 export function SignUpSecondStep() {
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
-    const navigation = useNavigation()
+    const navigation = useNavigation<any>()
     const route = useRoute()
 
-    const {user} = route.params as Params
+    const { user } = route.params as Params
 
     const theme = useTheme()
 
@@ -32,15 +32,19 @@ export function SignUpSecondStep() {
     }
 
     function handleRegister() {
-        if(!password || !passwordConfirm){
+        if (!password || !passwordConfirm) {
             return Alert.alert("Informe a senha e a confirmação.")
         }
 
-        if(password != passwordConfirm){
+        if (password != passwordConfirm) {
             return Alert.alert("As senhas não são iquais")
         }
 
-        
+        navigation.navigate("Confirmation", {
+            title: 'Conta criada',
+            message: `Agora é só fazer login\n e aproveitar`,
+            nextScreenRoute: 'Signin',
+        })
     }
 
     return (
