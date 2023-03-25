@@ -8,12 +8,14 @@ import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
 import * as Yup from 'yup'
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../hooks/auth';
 
 export function Signin() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const navigation = useNavigation<any>()
+    const { signIn } = useAuth()
 
     async function handleSignIn() {
         try {
@@ -22,17 +24,21 @@ export function Signin() {
                     .required("E-mail obrigatorio")
                     .email('Digite um e-mail válido'),
                 password: Yup.string()
-                .required("A senha é obrigatoria")
+                    .required("A senha é obrigatoria")
             })
-    
-            await schema.validate({email, password})
+
+            await schema.validate({ email, password })
+
+            signIn({
+                email, password
+            })
         } catch (error) {
-            if(error) {
-                if(error instanceof Yup.ValidationError){
+            if (error) {
+                if (error instanceof Yup.ValidationError) {
                     return Alert.alert("Opa", error.message)
-                }else {
-                    return Alert.alert('Error na autenticação', 
-                    "Ocorreu um erro ao fazer login, verifique as credenciais")
+                } else {
+                    return Alert.alert('Error na autenticação',
+                        "Ocorreu um erro ao fazer login, verifique as credenciais")
                 }
             }
         }
@@ -85,7 +91,7 @@ export function Signin() {
                         <Button
                             title='Login'
                             onPress={handleSignIn}
-                            enabled={false}
+                            enabled={email || password === "" ? true : false}
                             loading={false}
 
                         />

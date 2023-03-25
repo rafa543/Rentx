@@ -8,6 +8,7 @@ import { Container, Header, Steps, Title, Subtitle, Form, FormTitle } from "./st
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useState } from "react";
 import * as Yup from 'yup'
+import { useAuth } from "../../../hooks/auth";
 
 export function SignUpFirstStep() {
     const [email, setEmail] = useState('')
@@ -15,6 +16,8 @@ export function SignUpFirstStep() {
     const [driverLicense, setDriverLicense] = useState('')
 
     const navigation = useNavigation<any>()
+    const {user} = useAuth()
+    console.log(user)
 
     function handleBack() {
         navigation.goBack()
