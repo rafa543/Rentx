@@ -8,6 +8,7 @@ import { Container, Header, Steps, Title, Subtitle, Form, FormTitle } from "./st
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { PasswordInput } from "../../../components/PasswordInput";
 import { useState } from "react";
+import api from "../../../services/api";
 
 interface Params {
     user: {
@@ -31,7 +32,7 @@ export function SignUpSecondStep() {
         navigation.goBack()
     }
 
-    function handleRegister() {
+    async function handleRegister() {
         if (!password || !passwordConfirm) {
             return Alert.alert("Informe a senha e a confirmação.")
         }
@@ -40,11 +41,24 @@ export function SignUpSecondStep() {
             return Alert.alert("As senhas não são iquais")
         }
 
-        navigation.navigate("Confirmation", {
-            title: 'Conta criada',
-            message: `Agora é só fazer login\n e aproveitar`,
-            nextScreenRoute: 'Signin',
+        await api.post("/users", {
+            name: user.name,
+            email: user.email,
+            driver_license: user.driverLicense,
+            password
         })
+        .then(() => {
+            navigation.navigate("Confirmation", {
+                title: 'Conta criada',
+                message: `Agora é só fazer login\n e aproveitar`,
+                nextScreenRoute: 'Signin',
+            })
+        })
+        .catch((error) => {
+            console.log(error)
+            Alert.alert("Opa", "Não foi possivel cadastrar")
+        })
+
     }
 
     return (
