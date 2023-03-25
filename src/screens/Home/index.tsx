@@ -1,27 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { StatusBar, StyleSheet, BackHandler } from 'react-native';
-import { Container, Header, TotalCars, HeaderContent, CarList } from "./styles";
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { StatusBar, StyleSheet } from 'react-native';
+import { CarList, Container, Header, HeaderContent, TotalCars } from "./styles";
 
 import Animated, {
-    useSharedValue,
-    useAnimatedStyle,
-    useAnimatedGestureHandler,
-    withSpring
+    useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring
 } from 'react-native-reanimated';
 
-import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
+import { PanGestureHandler, RectButton } from 'react-native-gesture-handler';
 
 const ButtonAnimated = Animated.createAnimatedComponent(RectButton)
 
-import Logo from '../../assets/logo.svg'
-import { RFValue } from 'react-native-responsive-fontsize';
-import { Car } from '../../components/Car';
 import { useNavigation } from '@react-navigation/native';
+import { RFValue } from 'react-native-responsive-fontsize';
+import Logo from '../../assets/logo.svg';
+import { Car } from '../../components/Car';
 
-import api from '../../services/api'
-import CarDto from '../../dtos/CarDto';
 import { LoadAnimation } from '../../components/LoadAnimation';
+import CarDto from '../../dtos/CarDto';
+import api from '../../services/api';
 import theme from '../../styles/theme';
 
 export function Home() {
@@ -64,13 +61,6 @@ export function Home() {
     function handleOpenMyCars() {
         navigation.navigate("MyCars")
     }
-
-    useEffect(() => {
-        BackHandler.addEventListener('hardwareBackPress', () => {
-            return true
-        })
-
-    }, [])
 
     useEffect(() => {
         async function fetchCars() {
@@ -123,7 +113,7 @@ export function Home() {
             }
 
 
-            <PanGestureHandler
+            {/* <PanGestureHandler
                 onGestureEvent={onGestureEvent}
             >
                 <Animated.View
@@ -143,7 +133,7 @@ export function Home() {
                         <Ionicons name='ios-car-sport' size={32} color={theme.colors.shape} />
                     </ButtonAnimated>
                 </Animated.View>
-            </PanGestureHandler>
+            </PanGestureHandler> */}
         </Container>
     )
 }
