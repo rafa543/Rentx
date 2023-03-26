@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { BackButton } from "../../../components/BackButton";
 import { Bullet } from "../../../components/Bullet";

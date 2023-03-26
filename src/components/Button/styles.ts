@@ -1,3 +1,4 @@
+import React from "react";
 import { TouchableOpacity } from "react-native";
 import { TouchableOpacityProps } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";

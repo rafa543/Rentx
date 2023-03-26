@@ -1,3 +1,4 @@
+import React from "react";
 import { Container, Title } from "./styles";
 import { useTheme } from 'styled-components'
 import { ActivityIndicator } from "react-native";

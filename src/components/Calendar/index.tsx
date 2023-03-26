@@ -1,3 +1,4 @@
+import React from "react";
 import { Calendar as CustomCalendar, LocaleConfig, CalendarProps } from "react-native-calendars"
 
 import { Feather } from '@expo/vector-icons'
