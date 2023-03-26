@@ -28,7 +28,7 @@ import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
 
 
 export function Profile() {
-    const { user } = useAuth()
+    const { user, signOut } = useAuth()
 
     const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit')
     const [avatar, setAvatar] = useState(user.avatar)
@@ -40,10 +40,6 @@ export function Profile() {
 
     function handleBack() {
         navigation.goBack()
-    }
-
-    function handleSignOut() {
-
     }
 
     async function handleAvatarSelect() {
@@ -79,7 +75,7 @@ export function Profile() {
                                 onPress={handleBack}
                             />
                             <HeaderTitle>Editar Perfil</HeaderTitle>
-                            <LogoutButton onPress={handleSignOut}>
+                            <LogoutButton onPress={signOut}>
                                 <Feather
                                     name="power"
                                     size={24}
