@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, StatusBar, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { Container, Footer, Form, Header, Subtitle, Title } from "./styles";
 
@@ -48,7 +48,7 @@ export function Signin() {
     function handleNewAccount() {
         navigation.navigate("SignUpFirstStep")
     }
-
+    
     return (
         <KeyboardAvoidingView
             behavior='position'
