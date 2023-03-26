@@ -70,8 +70,8 @@ function AuthProvider({ children }: AuthProviderProps) {
         async function loadUserData() {
             const userCollection = database.get<ModelUser>('users')
             const response = await userCollection.query().fetch();
-            
-            if(response.length > 0) {
+
+            if (response.length > 0) {
                 const userData = response[0]._raw as unknown as User
 
                 api.defaults.headers.authorization = `Bearer ${userData.token}`
