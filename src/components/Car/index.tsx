@@ -16,12 +16,15 @@ import GasolineSvg from '../../assets/gasoline.svg'
 import { TouchableOpacityProps } from 'react-native';
 import CarDto from '../../dtos/CarDto';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
+import {Car as ModelCar} from '../../databases/models/Car'
+import { useNetInfo } from '@react-native-community/netinfo';
 
 interface Props extends TouchableOpacityProps{
-    data: CarDto
+    data: ModelCar
 }
 
 export function Car({data, ...rest}: Props) {
+    const netInfo = useNetInfo()
     const MotorIcon = getAccessoryIcon(data.fuel_type)
 
     return (
@@ -33,7 +36,7 @@ export function Car({data, ...rest}: Props) {
                 <About>
                     <Rent>
                         <Period>{data.period}</Period>
-                        <Price>{`R$ ${data.price}`}</Price>
+                        <Price>R$ {netInfo.isConnected === true ? data.price : '....'}</Price>
                     </Rent>
 
                     <Type>
