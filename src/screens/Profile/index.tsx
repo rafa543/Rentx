@@ -73,7 +73,7 @@ export function Profile() {
                 name: Yup.string().required("Nome é obrigatorio")
             })
 
-            const data = {name, driverLicense}
+            const data = { name, driverLicense }
 
             await schema.validate(data)
             await updatedUser({
@@ -89,12 +89,29 @@ export function Profile() {
 
             Alert.alert("Perfil atualizado!")
         } catch (error) {
-            if(error instanceof Yup.ValidationError){
+            if (error instanceof Yup.ValidationError) {
                 Alert.alert("Opa", error.message)
-            }else{
+            } else {
                 Alert.alert("Não foi possivel alterar o perfil")
             }
         }
+    }
+
+    async function handleSignOut() {
+        Alert.alert(
+            "Tem certeza?",
+            "Se você sair, irá precisar de internet para conectar-se novamente.",
+            [
+                {
+                    text: 'Cancelar',
+                    onPress: () => { },
+                },
+                {
+                    text: 'Sair',
+                    onPress: () => signOut()
+                }
+            ]
+        )
     }
 
     return (
@@ -108,7 +125,7 @@ export function Profile() {
                                 onPress={handleBack}
                             />
                             <HeaderTitle>Editar Perfil</HeaderTitle>
-                            <LogoutButton onPress={signOut}>
+                            <LogoutButton onPress={handleSignOut}>
                                 <Feather
                                     name="power"
                                     size={24}
