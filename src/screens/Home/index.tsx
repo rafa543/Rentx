@@ -20,6 +20,7 @@ import { LoadAnimation } from '../../components/LoadAnimation';
 import CarDto from '../../dtos/CarDto';
 import api from '../../services/api';
 import theme from '../../styles/theme';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 export function Home() {
     const [cars, setCars] = useState<CarDto[]>([])
@@ -52,6 +53,7 @@ export function Home() {
         }
     })
 
+    const netInfo = useNetInfo()
     const navigation = useNavigation<any>()
 
     function handleCarDetails(car: CarDto) {
@@ -85,6 +87,14 @@ export function Home() {
             isMounted = false
         }
     }, [])
+
+    useEffect(() => {
+        if(netInfo.isConnected){
+            console.log("online")
+        }else {
+            console.log("ofline")
+        }
+    }, [netInfo.isConnected])
 
     return (
         <Container>
