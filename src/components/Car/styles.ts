@@ -3,6 +3,8 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { TouchableOpacityProps } from "react-native";
 import { TouchableOpacity } from "react-native";
 
+import FastImage from "react-native-fast-image";
+
 export const Container = styled(TouchableOpacity)`
     width: 100%;
     height: 126px;
@@ -55,7 +57,7 @@ export const Price = styled.Text`
 export const Type = styled.View`
 
 `
-export const CardImage = styled.Image`
+export const CardImage = styled(FastImage)`
     width: 167px;
     height: 85px;
 `
