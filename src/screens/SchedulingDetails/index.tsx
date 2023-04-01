@@ -41,6 +41,8 @@ import { format } from 'date-fns';
 import { getPlataformDate } from '../../utils/getPlataformDate';
 import api from '../../services/api';
 import { ActivityIndicator } from 'react-native'
+import { useNetInfo } from '@react-native-community/netinfo';
+import { useAuth } from '../../hooks/auth';
 
 interface Params {
     car: CarDto;
@@ -53,43 +55,49 @@ interface RentalPeriod {
 }
 
 export function SchedulingDetails() {
+    const [carUpdated, setCarUpdated] = useState<CarDto>({} as CarDto)
     const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod)
     const [loading, setIsLoading] = useState(false)
     const route = useRoute()
     const { car, dates } = route.params as Params
     const theme = useTheme()
     const navigation = useNavigation<any>()
-
-    const rentTotal = Number(dates.length * car.rent.price)
+    const netInfo = useNetInfo()
+    const rentTotal = Number(dates.length * car.price)
+    const { user, signOut, updatedUser } = useAuth()
 
     async function handleConfirmRental() {
+        console.log(user)
         setIsLoading(true)
-        const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
+        // const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
 
-        const unavailable_dates = [
-            ...schedulesByCar.data.unavailable_dates,
-            ...dates,
-        ]
+        // const unavailable_dates = [
+        //     ...schedulesByCar.data.unavailable_dates,
+        //     ...dates,
+        // ]
 
-        await api.post('/schedules_byuser', {
+        await api.post('rentals', {
             user_id: 1,
-            car,
-            start: format(getPlataformDate(new Date(dates[0])), 'dd/MM/yyyy'),
-            end: format(getPlataformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy')
-        })
-
-        api.put(`/schedules_bycars/${car.id}`, {
-            id: car.id,
-            unavailable_dates
-        }).then(() => navigation.navigate("Confirmation", {
+            car_id: car.id,
+            start_date: new Date(dates[0]),
+            end_date: new Date(dates[dates.length - 1]),
+            total: rentTotal
+        },
+        {
+            headers: {authorization: `Bearer ${user.token}`}
+        }
+        ).then(() => navigation.navigate("Confirmation", {
             title: 'Carro alugado!',
             message: `Agora você só preicsa ir\n até a concessionária da RENTX\n pegar o seu automóvel.`,
             nextScreenRoute: 'Home',
         }))
-            .catch(() => {
-                setIsLoading(false)
-                Alert.alert("Não foi possivel confirmar o agendamento.")
-            })
+        .catch((error) => {
+            console.log(user.token+ "f")
+            setIsLoading(false)
+            console.log(error)
+            console.log(user.token)
+            Alert.alert("Não foi possivel confirmar o agendamento.")
+        })
 
 
     }
@@ -99,11 +107,23 @@ export function SchedulingDetails() {
     }
 
     useEffect(() => {
+        
         setRentalPeriod({
             start: format(getPlataformDate(new Date(dates[0])), 'dd/MM/yyyy'),
             end: format(getPlataformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy')
         })
     }, [])
+
+    useEffect(() => {
+        async function fetchCarUpdate() {
+            const response = await api.get(`/cars/${car.id}`)
+            setCarUpdated(response.data)
+        }
+
+        if (netInfo.isConnected === true) {
+            fetchCarUpdate()
+        }
+    }, [netInfo.isConnected])
 
     return (
         <Container>
@@ -113,7 +133,10 @@ export function SchedulingDetails() {
 
             <CarImages>
                 <ImageSlider
-                    imagesUrl={car.photos}
+                    imagesUrl={
+                        !!carUpdated.photos ?
+                            carUpdated.photos : [{ id: car.thumbnail, photo: car.thumbnail }]
+                    }
                 />
             </CarImages>
 
@@ -125,22 +148,25 @@ export function SchedulingDetails() {
                     </Description>
 
                     <Rent>
-                        <Period>{car.rent.period}</Period>
-                        <Price>R$ {car.rent.price}</Price>
+                        <Period>{car.period}</Period>
+                        <Price>R$ {car.price}</Price>
                     </Rent>
                 </Details>
 
-                <Accessories>
-                    {
-                        car.accessories.map(accessory => (
-                            <Accessory
-                                key={accessory.type}
-                                name={accessory.name}
-                                icon={getAccessoryIcon(accessory.type)}
-                            />
-                        ))
-                    }
-                </Accessories>
+                {
+                    carUpdated.accessories &&
+                    <Accessories>
+                        {
+                            carUpdated.accessories.map(accesory => (
+                                <Accessory
+                                    key={accesory.type}
+                                    name={accesory.name}
+                                    icon={getAccessoryIcon(accesory.type)}
+                                />
+                            ))
+                        }
+                    </Accessories>
+                }
 
                 <RentalPeriod>
                     <CalendaIcon>
@@ -172,7 +198,7 @@ export function SchedulingDetails() {
                 <RentalPrice>
                     <RentalPriceLabel>TOTAL</RentalPriceLabel>
                     <RentalPriceDetail>
-                        <RentalPriceQuota>{`R$ ${car.rent.price} x ${dates.length} diárias`}</RentalPriceQuota>
+                        <RentalPriceQuota>{`R$ ${car.price} x ${dates.length} diárias`}</RentalPriceQuota>
                         <RentalPriceTotal>R$ {rentTotal}</RentalPriceTotal>
                     </RentalPriceDetail>
                 </RentalPrice>
@@ -183,7 +209,7 @@ export function SchedulingDetails() {
                     title="Alugar agora"
                     color={theme.colors.success}
                     onPress={handleConfirmRental}
-                    enabled={!loading}
+                    // enabled={!loading}
                     // disabled={loading}
                     loading={loading}
                 />

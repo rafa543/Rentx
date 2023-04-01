@@ -164,7 +164,7 @@ export function CarDetails() {
                 <Button 
                     title="Escolher período do aluquel" 
                     onPress={handleConfirmRental} 
-                    enabled={netInfo.isConnected=== true}
+                    // enabled={netInfo.isConnected=== true}
                 />
                 {
                     netInfo.isConnected === false &&

@@ -74,7 +74,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                         newUser.email = user.email,
                         newUser.driver_license = user.driver_license,
                         newUser.avatar = user.avatar,
-                        newUser.token = user.token
+                        newUser.token = token
                 })
             })
 
